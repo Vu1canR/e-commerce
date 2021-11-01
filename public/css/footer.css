@@ -1,0 +1,24 @@
+.footer {
+	width: 1170px;
+	margin: auto;
+	display: flex;
+	justify-content: space-around;
+
+}
+
+.footer>ul{
+
+	padding: 0;
+	vertical-align: bottom;
+	line-height: 24px;
+}
+
+.footer li{
+	list-style: none;
+}
+
+.footer a{
+	text-decoration: none;
+	color: black;
+}
+

@@ -1,0 +1,301 @@
+@import "nav.css";
+@import "footer.css";
+
+*{
+	box-sizing: border-box;
+}
+.main-body,
+.route-nav{
+	margin: 0 auto;
+	width: 1170px;
+	box-sizing: border-box;
+	
+}
+.main-filters{
+	
+	width: 29%;
+	display: inline-block;
+	/* box-sizing: border-box; */
+	border:1px solid lightgrey;
+	border-radius: 7px;
+
+}
+
+.main-filters *{
+	box-sizing: inherit;
+}
+
+.main-filters>div{
+	display: block;
+	border-bottom:1px solid lightgrey;
+	padding: 8px 13px;
+}
+
+.show-all{
+	padding: 12px 13px;
+}
+
+.show-all>button{
+	width: 100%;
+	background-color: grey;
+	padding: 8px 0;
+	border-radius: 26px;
+	outline: none;
+	border:none;
+
+}
+
+.show-all>button:hover{
+	cursor: pointer;
+}
+
+.filter-search{
+	margin-top: 10px;
+	width: 100%;
+	border-radius: 26px;
+	padding: 8px 0 8px 10px;
+	outline: none;
+	border:none;
+	border: 1px solid lightgrey;
+
+}
+
+section{
+	border-bottom:1px solid lightgrey;
+	padding: 8px 0;
+}
+
+.header h2,h4{
+	padding: 0 13px;
+	display: inline;
+	
+}
+section>input,button{
+	padding: 0 13px;
+}
+section label{
+	display: block;
+	padding: 5px 15px;
+	width: 100%;
+}
+section label:hover{
+	cursor: pointer;
+	background-color: slategrey;
+	padding: 5px 15px;
+}
+.price-range{
+	display: block;
+	text-align: center;
+}
+.price-range>input{
+	padding: 10px 0;
+	width: 115px;
+	border-radius: 25px;
+	outline-style: none;
+	font-size: 14px;
+	border:1px solid lightgrey;
+	padding: 9px 0;
+	text-align: center;
+}
+
+.header{
+	position: relative;
+}
+.reset{
+	position: absolute;
+	bottom: 0;
+	right: 13px;
+	border:none;
+}
+
+
+.products-list{
+	vertical-align: top;
+	margin-left: 8px;
+	width: 70%;
+	/* border-top: 1px solid rgba(120, 120, 120, 0.3); */
+	
+	display: inline-block;
+	box-sizing: border-box;
+}
+
+/* .products-list *{
+	box-sizing: border-box;
+} */
+
+
+.filter-view{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-right: 18px;
+	border: solid;
+	border-width: 1px 0 1px 0;
+	border-color: lightgrey;
+	padding: 9px 0;
+}
+
+#sort-by{
+	border-radius: 25px;
+	padding: 5px 7px;
+	outline-style: none;
+	border-color: lightgrey;
+}
+#sort-by:active{
+	border-radius: 15px 15px 0 0;
+	padding: 5px 7px;
+	outline-style: none;
+	border-color: lightgrey;
+}
+
+#view-options{
+	
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#view-options>li{
+	margin-left: 25px;
+	display: inline-block;
+
+}
+
+#page{
+	width: 45px;
+	border-radius: 25px;
+	outline-style: none;
+	text-align: center;
+	border:1px solid lightgrey;
+	padding: 4px 7px;
+
+}
+.h-prev, .h-next{
+	display: inline-block;
+	text-align: center;
+	color: rgba(0,0,0, 0.3);
+	border-radius: 100%;
+	border: 1px solid #dfe1e5;
+	line-height: 23px;
+	height: 25px;
+	width: 25px;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.page-nav{
+	
+}
+.page-nav>*{
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.items-list{
+	
+	display: flex;
+	overflow: visible;
+	flex-wrap: wrap;
+}
+
+.items-list img{
+	width: auto;
+	height: 197px;
+	display: block;
+	margin: auto;
+}
+
+.product-div{
+	padding: 35px 8px 8px 8px;
+	width: calc(100% / 3);
+	box-sizing: border-box;
+}
+
+.specs{
+	padding: 0; 
+	list-style: none;
+}
+
+.specs>li{
+	font-size: 14px;
+}
+
+.compare-div, .cart{
+	display: inline-block;
+	border-radius: 50%;
+	/* border-color: green;
+	border:1px solid green;
+	color: green;
+	height: 35px;
+	line-height: 35px;
+	width: 35px;
+	text-align: center;
+	margin-left: 5px; */
+}
+
+.price-cart button{
+	/* display: block; */
+	border-radius: 50%;
+	border-color: green;
+	border:1px solid green;
+	color: green;
+	height: 40px;
+	width: 40px;
+	/* line-height: 35px; */
+	font-size: 18px;
+	padding: 0;
+	outline: none;
+	background-color: white;
+}
+
+.exp{
+	display: none;
+	
+}
+.product-div:hover .exp{
+	display: block;
+	float: right;
+}
+
+.product-div:hover{
+	overflow: visible;
+	box-shadow: 0px 3px 3px 3px rgba(0,0,0,.2);
+}
+
+/* .cart:hover, .compare-div:hover{
+	background-color: green;
+	color:white;
+	cursor: pointer;
+	transition: 0.2s;
+} */
+
+.price-cart button:hover{
+	background-color: green;
+	color:white;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+/* .compare-div:hover{
+	background-color: green;
+	color: white;
+} */
+
+/* 
+.price-cart{
+	height: 25px;
+} */
+
+.price{
+	float: left;
+	padding-top: 7px;
+	font-size: 20px;
+}
+
+
+.left{
+    display: inline-block;
+    width: 29%;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
