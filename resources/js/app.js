@@ -11,6 +11,7 @@ import bestsellers from "./components/bestsellers.vue";
 import registration from "./components/registration.vue";
 import header_nav from "./components/header-nav.vue";
 import product from "./components/product.vue";
+import products_list from "./components/products.vue";
 import user_profile from "./components/user-profile.vue";
 import recently_added from "./components/recently-added.vue";
 import tabs from "./components/tabs.vue";
@@ -26,7 +27,7 @@ import navigation from "./components/navigation.vue";
 
 const app = createApp({
  	components: {
-    	add_product, recently_added, tabs, tab, search, user_profile, slider, track_order, cart_preview, header_nav, product, bestsellers, registration, navigation, cart
+    	add_product, recently_added, tabs, tab, search, user_profile, slider, track_order, cart_preview, header_nav, product, bestsellers, registration, navigation, cart, products_list
   	}
 });
 

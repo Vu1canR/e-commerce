@@ -29,10 +29,12 @@ class ProductController extends Controller
         return view('welcome', compact('products', 'recent'));
     }
 
-    public function showAll($catId, $subcatId, $subcat){
-        $products = Product::where('sub_category_id', $subcatId)->get();
-        $cat_obj = Category::find($catId);
-        $subcat_obj = Subcategory::find($subcatId);
+    public function showAll($catId, $subCatId, $subcat){
+        $products = Product::where('sub_category_id', $subCatId)->paginate(3);
+        // $cat_obj = Category::find($catId);
+        // $subcat_obj = Subcategory::find($subCatId);
+
+        return $products;
         return view('products', compact('products', 'cat_obj', 'subcat_obj'));
     }
 
@@ -47,11 +49,22 @@ class ProductController extends Controller
         $subcat_obj = Subcategory::find($product_object->sub_category_id);                            
         return view('product', compact('comments', 'product_object', 'product', 'cat_obj', 'subcat_obj'));
     }
+    
 
-    public function create(Request $request){
+    public function byCategory(Request $request){
+        $products = Category::find($request->id);
+        
+        return $products->paginate(12);
+    }
+
+    public function addProduct(Request $request){
         $categories = Category::all();
-        $subcategories = subcategory::where('category_id', 1)->pluck('id', 'name');
-        $products = Product::all();
+        $subcategories = Subcategory::where('category_id', 1)->pluck('id', 'name');
+        $products = Product::with('category')
+            ->with('subcategory')
+            ->get();
+        // return $products;
+
         return view('add', compact('categories', 'subcategories', 'products'));
 
     }

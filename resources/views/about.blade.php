@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>About page</title>
-	<link rel="stylesheet" type="text/css" href="/css/test.css">
+	<link rel="stylesheet" type="text/css" href="/css/about.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<style>

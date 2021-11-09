@@ -67,13 +67,25 @@ export default {
     };
   },
   	methods: {
+	
+	inConsole(){
+		this.cart
+	},
 
 	updateQuantity(value, index){
 		this.my_array = [value, index] 
 		this.emitter.emit("updateQuantity", this.my_array)
 		this.cart[index].quantity = value
 		
+		this.toLocal()
+		this.totalPrice()
 	},
+
+	toLocal(){
+		let stringifiedArray = JSON.stringify(this.cart);
+		localStorage.setItem("cart", stringifiedArray);
+	},
+
 	totalPrice(){
 		let tempPrice = 0
 	
@@ -124,13 +136,14 @@ export default {
 	created() {
 		if (localStorage.getItem("cart") != null)
 		this.cart = JSON.parse(localStorage.getItem("cart"));
-		// this.totalPrice()
+		this.totalPrice()
 	},
 	
 	watch:{
-		cart(){
-			console.log('Value changed')
-			// this.totalPrice()
+		cart(val){
+			// console.log('Value changed')
+			this.toLocal()
+			this.totalPrice()
 		}
 	}
 };

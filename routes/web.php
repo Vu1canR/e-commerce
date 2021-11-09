@@ -21,6 +21,10 @@ Route::get('/product', function () {
     return view('product');
 });
 
+Route::get('/about', function () {
+    return view('about');
+});
+
 
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/about', function () {return view('about');});
@@ -36,8 +40,12 @@ Route::group(['middleware' => ['auth']], function(){
 Route::get('/welcome', 'App\Http\Controllers\ProductController@homeProducts')->name('welcome');
 
 
-Route::get('/add', 'App\Http\Controllers\ProductController@create');
+Route::get('/add', 'App\Http\Controllers\ProductController@addProduct');
+Route::get('/add', 'App\Http\Controllers\ProductController@addProduct');
+Route::get('/add/category', 'App\Http\Controllers\ProductController@byCategory');
+
 Route::post('/add', 'App\Http\Controllers\ProductController@store');
+Route::post('/category/{id}', 'App\Http\Controllers\ProductController@getId');
 
 Route::get('/register', 'App\Http\Controllers\RegistrationController@create');
 Route::post('/register', 'App\Http\Controllers\RegistrationController@store');

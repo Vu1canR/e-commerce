@@ -51,7 +51,7 @@ export default {
         },
         
         addItem(product) {
-            this.$root.$emit("addProduct", {
+            this.emitter.emit("addProduct", {
                 store_code: product["store_code"],
                 name: product["name"],
                 quantity: this.quantity,

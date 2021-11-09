@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Comment;
+use App\Models\Comment;
+use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
@@ -40,7 +42,13 @@ class Product extends Model
         return $this->HasMany(Comment::class);
     }
 
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
    
+    public function subcategory(){
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
+    }
 
 }
 

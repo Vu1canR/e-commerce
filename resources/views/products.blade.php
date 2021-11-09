@@ -101,7 +101,7 @@
 			</div>
 			<!-- items list comes here -->
 				
-				<products-list :products="{{$products}}"></products-list>
+				<products_list :products="{{$products}}"></products_list>
 			
 				
 				

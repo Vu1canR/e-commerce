@@ -37,7 +37,6 @@ export default {
         toLocal(){
             let stringifiedArray = JSON.stringify(this.cart);
             localStorage.setItem("cart", stringifiedArray);
-            
         }
         
     },
