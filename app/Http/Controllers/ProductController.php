@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Subcategory;
+use App\Models\SubCategory;
 use App\Models\Product;
 use App\Models\Spec;
 use App\Models\Category;
@@ -26,13 +26,14 @@ class ProductController extends Controller
     public function homeProducts(){
         $products = Product::inRandomOrder()->limit(5)->get();
         $recent = Product::orderBy('id', 'desc')->take(5)->get();
+        
         return view('welcome', compact('products', 'recent'));
     }
 
     public function showAll($catId, $subCatId, $subcat){
         $products = Product::where('sub_category_id', $subCatId)->paginate(3);
         // $cat_obj = Category::find($catId);
-        // $subcat_obj = Subcategory::find($subCatId);
+        // $subcat_obj = SubCategory::find($subCatId);
 
         return $products;
         return view('products', compact('products', 'cat_obj', 'subcat_obj'));
@@ -46,7 +47,7 @@ class ProductController extends Controller
         $comments = Comment::where('product_id', $product_object->id)
                                         ->with('user')->orderBy('created_at', 'asc')->get();
         $cat_obj = Category::find($product_object->category_id);
-        $subcat_obj = Subcategory::find($product_object->sub_category_id);                            
+        $subcat_obj = SubCategory::find($product_object->sub_category_id);                            
         return view('product', compact('comments', 'product_object', 'product', 'cat_obj', 'subcat_obj'));
     }
     
@@ -59,7 +60,7 @@ class ProductController extends Controller
 
     public function addProduct(Request $request){
         $categories = Category::all();
-        $subcategories = Subcategory::where('category_id', 1)->pluck('id', 'name');
+        $subcategories = SubCategory::where('category_id', 1)->pluck('id', 'name');
         $products = Product::with('category')
             ->with('subcategory')
             ->get();

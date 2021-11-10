@@ -16,6 +16,13 @@
         "sass": "^1.43.4",
         "sass-loader": "^12.3.0"
     },
+    
+    "prodDependencies": {
+        "axios": "^0.21",
+        "sass": "^1.43.4",
+        "sass-loader": "^12.3.0"
+    },
+
     "dependencies": {
         "mitt": "^3.0.0",
         "vue": "^3.2.19",
