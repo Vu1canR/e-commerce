@@ -52,6 +52,7 @@ class ProductController extends Controller
     }
 
 
+<<<<<<< HEAD
     public function store()
 
     {
@@ -69,6 +70,25 @@ class ProductController extends Controller
 
         return redirect()->route('admin.products.index');
     }
+=======
+    // public function store()
+
+    // {
+    //     $product = Product::create($request->all());
+    //     $product->categories()->sync($request->input('categories', []));
+    //     $product->tags()->sync($request->input('tags', []));
+
+    //     if ($request->input('photo', false)) {
+    //         $product->addMedia(storage_path('tmp/uploads/' . $request->input('photo')))->toMediaCollection('photo');
+    //     }
+
+    //     if ($media = $request->input('ck-media', false)) {
+    //         Media::whereIn('id', $media)->update(['model_id' => $product->id]);
+    //     }
+
+    //     return redirect()->route('admin.products.index');
+    // }
+>>>>>>> d559a307a28e4326b84649901b54f96147aca7be
 
 
     public function homeProducts()
