@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Post;
-use App\Product;
+use App\Models\Post;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
 class Comment extends Model

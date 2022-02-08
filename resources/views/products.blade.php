@@ -15,7 +15,6 @@
 
 @include('nav')
 
-
 <br>
 	<div class="main-body">
 	<p>
@@ -23,58 +22,8 @@
 		<a href="/c/{{strtolower(str_replace(' ','-',$cat_obj->name))}}">{{$cat_obj->name}}</a> >
 		<a href="/c-{{$cat_obj->id}}/{{$subcat_obj->id}}-{{strtolower(str_replace(' ','-',$subcat_obj->name))}}">{{$subcat_obj->name}}</a>
 	</p>		
-		<div class="main-filters">
-			<div>
-				Материнские платы
-				<span>
-				Материнские платы сокер ам4
-				</span>
-			</div>
-			<section>
-				<div class="header">
-					<h2>Фильтры</h2>
-					<span class="reset"><button>reset</button></span>
-				</div>
-				<div class="show-all">
-					<button>Show all filters</button>
-					<input type="text" class="filter-search" placeholder="Search...">
-				</div>
-			</section>	
-			
-			<section>
-				<h4>Price</h4>
-				<div>
-					<div class="price-range">
-						<input type="text" name="from" placeholder="from"> - <input type="text" name="to" placeholder="to">
-					</div>	
-				</div>	
-			</section>	
-			<section>
-				<div class="header">
-					<h4>Vendor</h4>
-					<span class="reset"><button>reset</button></span>
-				</div>
-				<label><input type="checkbox" name="checkbox">Asus</label>
-				<label><input type="checkbox" name="checkbox">MSI</label>
-				<label><input type="checkbox" name="checkbox">Gigabyte</label>
-				<label><input type="checkbox" name="checkbox">Asrock</label>
-			</section>
-			<section>
-				<div class="header">
-					<h4>Format</h4>
-					<span class="reset"><button>reset</button></span>
-				</div>
-				<label><input type="checkbox" name="checkbox">ATX</label>
-				<label><input type="checkbox" name="checkbox">mATX</label>
-				<label><input type="checkbox" name="checkbox">mITX</label>
-				<label><input type="checkbox" name="checkbox">uATX</label>
-				<label><input type="checkbox" name="checkbox">E-ATX</label>
-			</section>	
-				
-
-			<section></section>	
-			
-		</div>
+		
+		<filters></filters>
 		<div class="products-list">
 			<div class="filter-view">
 				<div>
@@ -102,9 +51,7 @@
 			<!-- items list comes here -->
 				
 				<products_list :products="{{$products}}"></products_list>
-			
-				
-				
+		</div>
 
 		</div>
 	</div>
