@@ -9,17 +9,25 @@ use App\Models\Product;
 
 class SubCategory extends Model
 {
-    public function category(){
-        
-        return $this->belongsTo(Category::class);
 
+    public function specs()
+    {
+        return $this->hasMany(Spec::class, 'sub_cat_id');
     }
 
-    public function amount(){
+    public function category()
+    {
+
+        return $this->belongsTo(Category::class);
+    }
+
+    public function amount()
+    {
         return $this->hasMany(Product::class);
     }
 
-    public function products(){
+    public function products()
+    {
         return $this->hasMany(Product::class);
     }
 }

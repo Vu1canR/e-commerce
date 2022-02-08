@@ -91,7 +91,7 @@
                         <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
                     </svg>
                 </button>
-                <button class="app-content-headerButton">Add Product</button>
+                <a href="products/create" class="app-content-headerButton">Add Product</a>
             </div>
             <div class="app-content-actions">
                 <input class="search-bar" placeholder="Search..." type="text">
@@ -225,82 +225,7 @@
             </div>
         </div>
     </div>
-    <!-- <tabs v-model="active">
-		<tab title="new product">
-            <div class="form-div">
-                <form method="POST" action="/add" enctype="multipart/form-data">
-                <p>{{data['subcategories']}}</p>
-                <input type="hidden" name="_token" :value="csrf" />
-                <label for="name"><strong>Category</strong></label>
-                <select name="category_id"  @change="getCatID($event.target.value)">
-                    <option 
-                    v-for="(category, index) in categories" 
-                    :key="index" 
-                    :value="category.id"
-                    :name="category.name">{{category.name}}</option>
-                </select>
-
-                <label for="name"><strong>Subcategory</strong></label>
-                <select name="subcategory_id" @change="getSubCatID($event.target.value)">
-                    <option v-for="(subcat_id, subcat_name) in data['subcategories']"
-                    :key="subcat_id"
-                    :value="subcat_id"
-                    :name="subcat_name">{{subcat_name}}</option>
-                    
-                </select>
-                <label for="name"><strong>Name</strong></label>
-                <input type="text" name="name" autocomplete="on">
-                <label for="description"><strong>Description</strong></label>
-                <textarea name="description" rows="10"></textarea>
-                <br><br>
-                <label for="images"><strong>Images</strong></label>
-                <input type="file" name="images[]" autocomplete="off" multiple>
-                <br><br>
-                <label for="keywords"><strong>Keywords</strong></label>
-                <input type="text" name="keywords" autocomplete="on">
-                <label for="store_code"><strong>Store code</strong></label>
-                <input type="text" name="store_code" autocomplete="on">
-                
-                
-                
-                <label v-for="(spec, index) in data['specs']" :for="spec" :key="index"><strong>{{spec}}</strong>
-                <input type="text" :key="index" :name="spec" autocomplete="off">
-                </label>
-                <button class="add-btn" type="sumbit">Add product</button>
-                
-                
-            </form>
-            </div>
-		</tab>
-		<tab title="orders" id="orders">
-            <div class="products">
-                <div class="wrap">
-                    <div class="search">
-                        <input v-model="search" class="searchTerm" placeholder="What are you looking for?">
-                        <button type="submit" class="searchButton">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-                <div v-for="(product, index) in filteredList" class="product-div">
-                    <div>
-                        <div class="name-row">№ {{product.name}} - {{product.quantity}} &nbsp; <input ref="qi" name="quantity" v-model="quantity" autocomplete="off"></div>
-                        <div class="btn-div">
-                            <button class="ep-btn"><a href="#">Details</a></button>
-                            <form action="/add" method="POST">
-                            <input type="hidden" name="_token" :value="csrf">
-                            <button v-if="!showEdit[index].editing" @click.prevent="showInput(index)" class="ep-btn">Edit</button>
-                            <button v-else @click.prevent="hideInput(product.id, product.quantity, index)" class="ep-btn">Save</button>
-                            </form>
-                            
-                        </div>
-                        <div style="clear: both;"></div>	
-                    </div>
-                    
-                </div>
-            </div>
-		</tab>
-	</tabs> -->
+    
 </div>        
     
     

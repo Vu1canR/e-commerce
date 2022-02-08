@@ -6,8 +6,10 @@ import mitt from 'mitt';
 const emitter = mitt();
 
 // import Home from "./components/Home.vue";
-import add_product from "./components/add-product.vue";
+import show_products from "./components/show-products.vue";
+import add_product from "./components/add_product.vue";
 import bestsellers from "./components/bestsellers.vue";
+import filters from "./components/filters.vue";
 import registration from "./components/registration.vue";
 import header_nav from "./components/header-nav.vue";
 import product from "./components/product.vue";
@@ -27,7 +29,9 @@ import navigation from "./components/navigation.vue";
 
 const app = createApp({
  	components: {
-    	add_product, recently_added, tabs, tab, search, user_profile, slider, track_order, cart_preview, header_nav, product, bestsellers, registration, navigation, cart, products_list
+		show_products, add_product,
+		recently_added,
+		tabs, tab, search, user_profile, slider, track_order, cart_preview, header_nav, product, bestsellers, registration, navigation, cart, products_list, filters
   	}
 });
 

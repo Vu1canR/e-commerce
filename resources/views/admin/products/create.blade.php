@@ -3,7 +3,8 @@
 
 <head>
     <title>Product dashboard</title>
-    <link rel="stylesheet" type="text/css" href="/css/add.css">
+    <link rel="stylesheet" type="text/css" href="/css/create-product.css">
+    {{-- <title>Laravel Ecommerce | @yield('title', '')</title> --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
     <style>
@@ -15,7 +16,8 @@
 <body>
 
     <div id="app">
-        <add_product :categories="{{$categories}}" :products_object="{{$products}}"></add_product>
+        <add_product></add_product>
+        {{-- <add_product :categories="{{$categories}}" :products_object="{{$products}}"></add_product> --}}
 
        
 

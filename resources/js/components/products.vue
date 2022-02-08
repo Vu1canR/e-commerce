@@ -17,7 +17,7 @@
             
                             
                         </div> -->
-            
+                        
                     </div> 
                 </div>                   
             </a>    
@@ -42,12 +42,13 @@ export default {
             my_products: '',
             my_message: '',
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            my_array : []
+            my_array : [],
+            selected: []            
         }
     },
     methods: {
         inConsole(){
-            console.log(this.my_array)
+            console.log(this.selected)
         },
         
         addItem(product) {
@@ -75,9 +76,18 @@ export default {
         }
 
     },
+
+    created() {
+        
+    },
+
     mounted() {
 
-        axios.get('/products').then(response => this.my_products = response.data);
+        // axios.get('/products').then(response => this.my_products = response.data);
+    },
+
+    watch: {
+        
     },
 }
 </script>

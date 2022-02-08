@@ -10,12 +10,13 @@ use App\Models\Product;
 use App\Models\Spec;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\SpecValue;
 use Illuminate\Support\Facades\Session;
 
 
 
 class ProductController extends Controller
-{   
+{
 
     // public function __construct()
     // {
@@ -23,42 +24,97 @@ class ProductController extends Controller
     //     // $this->middleware('admin')->only(['create', 'store']);
     // }
 
-    public function homeProducts(){
+    public function index()
+    {
+
+        $categories = Category::all();
+        $subcategories = SubCategory::where('category_id', 1)->pluck('id', 'name');
+        $products = Product::with('category')
+            ->with('subcategory')
+            ->get();
+        // return $products;
+
+        return view('admin.products.add', compact('categories', 'subcategories', 'products'));
+    }
+
+    public function create()
+    {
+        abort_if(Gate::denies('product_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+
+        $categories = Category::with('subcategories.specs')
+            ->whereHas('values')
+            ->get();
+
+        $values = SpecValue::all()->pluck('name', 'id');
+
+        return view('admin.products.create', compact('categories', 'values', 'tags'));
+    }
+
+
+    public function store()
+
+    {
+        $product = Product::create($request->all());
+        $product->categories()->sync($request->input('categories', []));
+        $product->tags()->sync($request->input('tags', []));
+
+        if ($request->input('photo', false)) {
+            $product->addMedia(storage_path('tmp/uploads/' . $request->input('photo')))->toMediaCollection('photo');
+        }
+
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $product->id]);
+        }
+
+        return redirect()->route('admin.products.index');
+    }
+
+
+    public function homeProducts()
+    {
         $products = Product::inRandomOrder()->limit(5)->get();
         $recent = Product::orderBy('id', 'desc')->take(5)->get();
-        
+
         return view('welcome', compact('products', 'recent'));
     }
 
-    public function showAll($catId, $subCatId, $subcat){
-        $products = Product::where('sub_category_id', $subCatId)->paginate(3);
-        // $cat_obj = Category::find($catId);
-        // $subcat_obj = SubCategory::find($subCatId);
+    public function showAll($catId, $subCatId, $subcat)
+    {
+        $products = Product::where('sub_category_id', $subCatId)
+            ->with('specs')->get();
+        $cat_obj = Category::find($catId);
+        $subcat_obj = SubCategory::find($subCatId);
+        $cats = Category::with('subcategories')->get();
 
-        return $products;
-        return view('products', compact('products', 'cat_obj', 'subcat_obj'));
+        $specs = Spec::where('sub_cat_id', $subCatId)->with('products')->get();
+
+        return view('products', compact('products', 'cat_obj', 'subcat_obj', 'specs'));
     }
 
-    public function show($store_code, $product){
+    public function show($store_code, $product)
+    {
 
-        $dash_replaced = str_replace("-"," ", $product);
+        $dash_replaced = str_replace("-", " ", $product);
         $product_object = Product::where('name', $dash_replaced)
-                                            ->with('specs')->first();
+            ->with('specs')->first();
         $comments = Comment::where('product_id', $product_object->id)
-                                        ->with('user')->orderBy('created_at', 'asc')->get();
+            ->with('user')->orderBy('created_at', 'asc')->get();
         $cat_obj = Category::find($product_object->category_id);
-        $subcat_obj = SubCategory::find($product_object->sub_category_id);                            
+        $subcat_obj = SubCategory::find($product_object->sub_category_id);
         return view('product', compact('comments', 'product_object', 'product', 'cat_obj', 'subcat_obj'));
     }
-    
 
-    public function byCategory(Request $request){
+
+    public function byCategory(Request $request)
+    {
         $products = Category::find($request->id);
-        
+
         return $products->paginate(12);
     }
 
-    public function addProduct(Request $request){
+    public function addProduct(Request $request)
+    {
         $categories = Category::all();
         $subcategories = SubCategory::where('category_id', 1)->pluck('id', 'name');
         $products = Product::with('category')
@@ -67,15 +123,15 @@ class ProductController extends Controller
         // return $products;
 
         return view('add', compact('categories', 'subcategories', 'products'));
-
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $subcategory = $request->subcategory_id;
         $specs_obj = Spec::where('sub_cat_id', $subcategory)
-                                ->orderBy('id', 'asc')
-                                ->pluck('property', 'id');
-        
+            ->orderBy('id', 'asc')
+            ->pluck('property', 'id');
+
         $specs_array = $specs_obj->toArray();
         // return array_values($specs_array);
         $validation_array = [
@@ -93,52 +149,53 @@ class ProductController extends Controller
 
         // Giving reqiured value to each spec in array
 
-        foreach(array_values($specs_array) as $spec) {
+        foreach (array_values($specs_array) as $spec) {
             $validation_array[$spec] = 'required';
         }
 
         $raw_data = $request->except('images');
-        $av = [];    
+        $av = [];
         array_push($av, array_values($raw_data));
-        $spec_values = array_slice($av[0],7);
+        $spec_values = array_slice($av[0], 7);
 
 
-        $images=[];
-        if($files = $request->file('images')){
-            foreach($files as $file){
+        $images = [];
+        if ($files = $request->file('images')) {
+            foreach ($files as $file) {
                 $name = $file->getClientOriginalName();
-                $file->move(public_path('/images'.$subcategory), $name);
+                $file->move(public_path('/images' . $subcategory), $name);
                 $images[] = $name;
             }
         }
 
         // Validates given specs
-        
-        try{
-            $validator = Validator::make($request->all(), $validation_array
+
+        try {
+            $validator = Validator::make(
+                $request->all(),
+                $validation_array
             );
-             
+
             if ($validator->fails()) {
                 return redirect('add')
-                            ->withErrors($validator)
-                            ->withInput();
+                    ->withErrors($validator)
+                    ->withInput();
             }
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
         }
-        catch(Exception $e){
-            echo 'Message: ' .$e->getMessage();
-        }
-         
+
         // return "Validation was successful";
 
         // $image = $request->image;
         // if($image){
         //     $originalName = $image->getClientOriginalName();
         //     $image->move('images', $originalName);
-            // $imageToDB = $originalName;
+        // $imageToDB = $originalName;
         // }
 
-        
-        
+
+
 
         $product = Product::create([
             'category_id' => $request->category_id,
@@ -154,9 +211,9 @@ class ProductController extends Controller
         ]);
 
         // Preparing data for pivot table 
-        
+
         $attach_data = [];
-        for ($i = 0; $i < count(array_keys($specs_array)); $i++){
+        for ($i = 0; $i < count(array_keys($specs_array)); $i++) {
             $attach_data[array_keys($specs_array)[$i]] = ['value' => $spec_values[$i]];
         }
         $product->specs()->attach($attach_data);
@@ -164,41 +221,44 @@ class ProductController extends Controller
         return redirect()->back()->with('message', 'Data inserted!!!');;
     }
 
-    public function getId(Request $request, $category_id=null, $selected_cat_subcat=null, $specs=null){
+    public function getId(Request $request, $category_id = null, $selected_cat_subcat = null, $specs = null)
+    {
         $category_id = $request->get('category_id');
         $subcategory_id = $request->get('subcategory_id');
 
         $subcat_collection = Category::find($category_id);
         $subcategories = $subcat_collection->subCategories->pluck('id', 'name');
         $subcat_first_id = $subcat_collection->subcategories->pluck('id')->first();
-        
+
         $specs = Spec::where('sub_cat_id', $subcat_first_id)->pluck('property', 'id');
         $sel_cat_specs = Spec::where('sub_cat_id', $subcategory_id)->pluck('property', 'id');
-        
-        return compact('category_id', 'subcategories', 'specs', 'sel_cat_specs');          
+
+        return compact('category_id', 'subcategories', 'specs', 'sel_cat_specs');
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         $product = Product::find($request->id);
         $product->quantity = $request->quantity;
         $product->save();
-		$quantity = $product->quantity;
-		$id = $request->id;
-		
+        $quantity = $product->quantity;
+        $id = $request->id;
+
         return compact('quantity', 'id');
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         $search = $request->user_input;
         $categories = Category::all();
-        $result = Product::where('name', 'like', '%'.$search.'%')->get();
+        $result = Product::where('name', 'like', '%' . $search . '%')->get();
         // return $result;
         return view('search-result', compact('result', 'categories'));
     }
 
-    public function axiosSearch(Request $request){
-        $result = Product::where('name', 'like', '%'.$request->user_input.'%')->paginate(5);
+    public function axiosSearch(Request $request)
+    {
+        $result = Product::where('name', 'like', '%' . $request->user_input . '%')->paginate(5);
         return compact('result');
     }
-
 }
