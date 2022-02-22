@@ -67,6 +67,7 @@ Route::get('/p/{store_code}-{product}', 'App\Http\Controllers\ProductController@
 Route::get('/c-{catId}/{subcatId}-{subcat}', 'App\Http\Controllers\ProductController@showAll');
 
 Route::get('/test', 'App\Http\Controllers\TestController@index');
+Route::post('/api/values', 'App\Http\Controllers\TestController@values');
 
 Route::post('/add/product-update', 'App\Http\Controllers\ProductController@update');
 

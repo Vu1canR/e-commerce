@@ -83,7 +83,7 @@
         </div>
 		<div class="add-div" title="new product">
             <div class="form-div menu">
-                <form method="POST" action="/create-product" enctype="multipart/form-data">
+                <form method="POST" action="/admin/products" enctype="multipart/form-data">
                     <p>{{data['subcategories']}}</p>
                     <input type="hidden" name="_token" :value="csrf" />
                     <label for="name">Category</label>
@@ -104,6 +104,7 @@
                         :name="subcategory.name">{{subcategory.name}}</option>
                         
                     </select>
+                    
                     <label for="name">Name</label>
                     <input type="text" name="name" autocomplete="off">
                     <label for="description">Description</label>
@@ -119,12 +120,14 @@
                     
                     
                     <div v-for="(spec, index) in specs" :key="index">
-                        <label :for="spec" :key="index">{{spec.spec_name}}</label>
-                        <select>
-                            <option v-for="(value, index) in spec.values" :key="index">{{value.value}}</option>
+                        <label :for="spec.spec_name" :key="index">{{spec.spec_name}}</label>
+                        <select :name="spec.spec_name.replace(/\s+/g, '')" v-model="values[index]">
+                            <option v-for="(value, index) in spec.values" :key="index" :value="value.id">{{value.value}}</option>
                         </select>
                         <!-- <input type="text" :key="index" :name="spec" autocomplete="off"> -->
                     </div>
+
+                    <!-- <button class="add-btn" type="sumbit" @click.prevent="storeProduct">Add product</button> -->
                     <button class="add-btn" type="sumbit">Add product</button>
                 </form>
             </div>
@@ -218,12 +221,29 @@ export default {
             selected: {
                 category: null,
                 subcategory: null
-            }
+            },
+            values: [],
+        
         }
     },
     methods: {
         inconsole(){
-         console.log(this.specs)
+         
+        console.log(this.values);
+            
+        },
+        sendValues(){            
+            axios({
+                method: 'post',
+                params: this.test,
+                url: '/api/values',
+            })
+            .then(response => {
+                
+                console.log(response)
+                })
+            .catch(error => console.log(error));
+
         },
 
         loadCategories(){            
@@ -238,7 +258,7 @@ export default {
             })
             .then(response => {
                 this.categories = response.data
-                console.log(response)
+                // console.log(response)
                 })
             .catch(error => console.log(error));
 
@@ -256,12 +276,11 @@ export default {
             })
             .then(response => {
                 this.categories = response.data
-                console.log(response.data)
+                
                 if(this.selected.category){
-                    // this.subcategories = response.data[this.selected.category].subcategories
+
                     
                     response.data.forEach(item => {
-                        // console.log(item)
                     })
                     for (const item in response.data) {
                         if(response.data[item].id == this.selected.category){
@@ -269,11 +288,10 @@ export default {
                             // console.log(response.data[item].subcategories)
                             break
                         }
-                        // console.log(`${item}: ${response.data[item].name}`);
+
                     }
                 }
-                // console.log(response.data[this.selected.category].subcategories)
-                // console.log(response)
+
                 })
             .catch(error => console.log(error));
 
@@ -283,7 +301,6 @@ export default {
             for (const item in this.subcategories) {
                 if(this.subcategories[item].id == this.selected.subcategory){
                     this.specs = this.subcategories[item].specs
-                    // console.log(response.data[item].subcategories)
                     break
                 }
             }

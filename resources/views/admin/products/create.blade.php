@@ -17,7 +17,7 @@
 
     <div id="app">
         <add_product></add_product>
-        {{-- <add_product :categories="{{$categories}}" :products_object="{{$products}}"></add_product> --}}
+        {{-- <add_product :categories="{{$categories}}"></add_product> --}}
 
        
 

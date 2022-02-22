@@ -20,77 +20,9 @@ class ProductController extends Controller
     {
 
 
-        // $specs = ['8gb', 'TUF Gaming'];
-        $my_array = [
-            "values" => [
-                [
-                    "id" => 3,
-                    "value" => "PCI Express 4.0",
-                    "test" => 22,
-                    "pivot" => [
-                        "spec_id" => 63,
-                        "spec_value_id" => 3
-                    ],
-
-                    "products" => [
-                        "id" => 22,
-                        "category_id" => 4,
-                        "name" => "Gigabyte GeForce RTX 2060 SUPER OC 6GB GDDR6"
-                    ],
-                ],
-
-                [
-                    "id" => 11,
-                    "value" => "PCI Express 3.0",
-                    "test" => 1,
-                    "pivot" => [
-                        "spec_id" => 63,
-                        "spec_value_id" => 11
-                    ],
-
-                    "products" => [
-                        "id" => 1,
-                        "category_id" => 4,
-                        "name" => "Asus GeForce RTX 3070 8GB GDDR6"
-                    ],
-                ],
-            ],
-
-            "values" => [
-                [
-                    "id" => 3,
-                    "value" => "PCI Express 3.0",
-                    "test" => 22,
-                    "pivot" => [
-                        "spec_id" => 63,
-                        "spec_value_id" => 3
-                    ],
-
-                    "products" => [
-                        "id" => 22,
-                        "category_id" => 4,
-                        "name" => "Gigabyte GeForce RTX 2060 SUPER OC 6GB GDDR6"
-                    ],
-                ],
-
-                [
-                    "id" => 11,
-                    "value" => "PCI Express 3.0",
-                    "test" => 1,
-                    "pivot" => [
-                        "spec_id" => 63,
-                        "spec_value_id" => 11
-                    ],
-
-                    "products" => [
-                        "id" => 1,
-                        "category_id" => 4,
-                        "name" => "Asus GeForce RTX 3070 8GB GDDR6"
-                    ],
-                ],
-            ]
-        ];
-        $specs = request()->input('specs', []);
+        $specs = ['Asus', 'Aorus', '6gb'];
+        // $specs = [ 1,9, 7];
+        // $specs = request()->input('specs', []);
         // $products = Product::where('sub_category_id', $subCatId)
         // ->with('specs')->get();
 
@@ -107,13 +39,22 @@ class ProductController extends Controller
             //     );
             // }])
 
-            // ->with(['values.products' => function ($query) use ($specs) {
-            //     $query->with('values', function ($query) use ($specs) {
-            //         $query->whereIn('value', $specs);
-            //     });
-            // }])->limit(3)
+            ->with(['values.products' => function ($query) use ($specs) {
+                $query->with('values', function ($query) use ($specs) {
+                    $query->whereIn('value', $specs);
+                });
+            }])
 
-            ->with('values.products')
+            // ->with(['values.products' => function ($query) use ($specs) {
+                
+            //     // $query->with('values', function ($query) use ($specs) {
+            //     //     $query->whereIn('value', $specs);
+            //     // });
+            //     $query->sum('price');
+                
+            // }])
+
+            // ->with('values.products')
             // ->with('values')
 
             // ->with('values')->limit(3)
@@ -121,7 +62,7 @@ class ProductController extends Controller
             //     $q->with('products');
             // }])
             // ->groupBy('values')
-            ->limit(3)
+            // ->limit(5)
             // ->union('values')
             ->get();
         // $x = $specs->values->union($values);

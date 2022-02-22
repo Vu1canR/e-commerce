@@ -17,7 +17,7 @@ class Product extends Model
     public $timestamps = false;
 
     // protected $fillable = ['category_id','name', 'description','keywords','subcategory_id','store_code'];
-    protected $fillable = ['category_id', 'name', 'model', 'brand', 'price', 'description', 'images', 'keywords', 'subcategory_id', 'store_code'];
+    protected $fillable = ['category_id', 'name', 'price', 'slug', 'description'];
 
     public function specs()
     {
@@ -64,53 +64,11 @@ class Product extends Model
         return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
 
-    public function scopeWithFilters($query, $specs)
-    {
+    // public function scopeWithFilters()
+    // {
 
-        // return $query->with('values')->whereIn('value', $specs);
+    //     return $this->whereIn('value', ['Asus']);
 
-        // return $query->where(count($specs), function ($query) use ($specs) {
-        //     $query->with(['values'])->whereIn('value', $specs);
-        // });
 
-        return $query->when(count($specs), function ($query) use ($specs) {
-            $query->with(['values'])->whereIn('value', $specs);
-        });
-
-        // $results = Post::whereHas('companions', function ($query) use ($companion_id) {
-        //     $query->whereIn('companions.id', $companion_id);
-        // })
-
-        // return $query->when(count($manufacturers), function ($query) use ($manufacturers) {
-        //     $query->whereIn('manufacturer_id', $manufacturers);
-        // })
-
-        // Event::whereHas('participants', function ($query) {
-        //     return $query->where('IDUser', '=', 1);
-        // })->get();
-        // 'values' => function ($query) {
-        //     $query->whereIn($query, $specs);
-        // }
-
-        // ->when(count($categories), function ($query) use ($categories) {
-        //     $query->whereIn('category_id', $categories);
-        // })
-        // ->when(count($prices), function ($query) use ($prices) {
-        //     $query->where(function ($query) use ($prices) {
-        //         $query->when(in_array(0, $prices), function ($query) {
-        //             $query->orWhere('price', '<', '5000');
-        //         })
-        //             ->when(in_array(1, $prices), function ($query) {
-        //                 $query->orWhereBetween('price', ['5000', '10000']);
-        //             })
-        //             ->when(in_array(2, $prices), function ($query) {
-        //                 $query->orWhereBetween('price', ['10000', '50000']);
-        //             })
-        //             ->when(in_array(3, $prices), function ($query) {
-        //                 $query->orWhere('price', '>', '50000');
-        //             });
-        //     });
-        // });
-
-    }
+    // }
 }

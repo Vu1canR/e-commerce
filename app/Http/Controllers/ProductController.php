@@ -52,23 +52,26 @@ class ProductController extends Controller
     }
 
 
-    // public function store()
+    public function store(Request $request)
 
-    // {
-    //     $product = Product::create($request->all());
-    //     $product->categories()->sync($request->input('categories', []));
-    //     $product->tags()->sync($request->input('tags', []));
+    {
 
-    //     if ($request->input('photo', false)) {
-    //         $product->addMedia(storage_path('tmp/uploads/' . $request->input('photo')))->toMediaCollection('photo');
-    //     }
+        // $product = Product::create($request->all());
+        // $product->specs()->sync($request->input('specs', []));
+        // $product->values()->sync($request->input('values', []));
+        // // $product->categories()->sync($request->input('categories', []));
+        // // $product->tags()->sync($request->input('tags', []));
 
-    //     if ($media = $request->input('ck-media', false)) {
-    //         Media::whereIn('id', $media)->update(['model_id' => $product->id]);
-    //     }
+        // if ($request->input('photo', false)) {
+        //     $product->addMedia(storage_path('tmp/uploads/' . $request->input('photo')))->toMediaCollection('photo');
+        // }
 
-    //     return redirect()->route('admin.products.index');
-    // }
+        // if ($media = $request->input('ck-media', false)) {
+        //     Media::whereIn('id', $media)->update(['model_id' => $product->id]);
+        // }
+
+        // return redirect()->route('admin.products.index');
+    }
 
 
     public function homeProducts()
@@ -125,100 +128,89 @@ class ProductController extends Controller
         return view('add', compact('categories', 'subcategories', 'products'));
     }
 
-    public function store(Request $request)
+    public function storeb(Request $request)
     {
-        $subcategory = $request->subcategory_id;
-        $specs_obj = Spec::where('sub_cat_id', $subcategory)
-            ->orderBy('id', 'asc')
-            ->pluck('property', 'id');
+        // $subcategory = $request->subcategory_id;
+        // $specs_obj = Spec::where('sub_cat_id', $subcategory)
+        //     ->orderBy('id', 'asc')
+        //     ->pluck('property', 'id');
 
-        $specs_array = $specs_obj->toArray();
-        // return array_values($specs_array);
-        $validation_array = [
-            'category_id' => 'required',
-            'name' => 'required',
-            // 'model' => 'required',
-            // 'brand' => 'required',
-            // 'price' => 'required',
-            'description' => 'required',
-            'images' => 'required',
-            'keywords' => 'required',
-            'subcategory_id' => 'required',
-            'store_code' => 'required',
-        ];
+        // $specs_array = $specs_obj->toArray();
+        // // return array_values($specs_array);
+        // $validation_array = [
+        //     'category_id' => 'required',
+        //     'name' => 'required',
+        //     // 'model' => 'required',
+        //     // 'brand' => 'required',
+        //     // 'price' => 'required',
+        //     'description' => 'required',
+        //     'images' => 'required',
+        //     'keywords' => 'required',
+        //     'subcategory_id' => 'required',
+        //     'store_code' => 'required',
+        // ];
 
-        // Giving reqiured value to each spec in array
+        // // Giving reqiured value to each spec in array
 
-        foreach (array_values($specs_array) as $spec) {
-            $validation_array[$spec] = 'required';
-        }
+        // foreach (array_values($specs_array) as $spec) {
+        //     $validation_array[$spec] = 'required';
+        // }
 
-        $raw_data = $request->except('images');
-        $av = [];
-        array_push($av, array_values($raw_data));
-        $spec_values = array_slice($av[0], 7);
+        // $raw_data = $request->except('images');
+        // $av = [];
+        // array_push($av, array_values($raw_data));
+        // $spec_values = array_slice($av[0], 7);
 
 
-        $images = [];
-        if ($files = $request->file('images')) {
-            foreach ($files as $file) {
-                $name = $file->getClientOriginalName();
-                $file->move(public_path('/images' . $subcategory), $name);
-                $images[] = $name;
-            }
-        }
+        // $images = [];
+        // if ($files = $request->file('images')) {
+        //     foreach ($files as $file) {
+        //         $name = $file->getClientOriginalName();
+        //         $file->move(public_path('/images' . $subcategory), $name);
+        //         $images[] = $name;
+        //     }
+        // }
 
-        // Validates given specs
+        // // Validates given specs
 
-        try {
-            $validator = Validator::make(
-                $request->all(),
-                $validation_array
-            );
+        // try {
+        //     $validator = Validator::make(
+        //         $request->all(),
+        //         $validation_array
+        //     );
 
-            if ($validator->fails()) {
-                return redirect('add')
-                    ->withErrors($validator)
-                    ->withInput();
-            }
-        } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage();
-        }
-
-        // return "Validation was successful";
-
-        // $image = $request->image;
-        // if($image){
-        //     $originalName = $image->getClientOriginalName();
-        //     $image->move('images', $originalName);
-        // $imageToDB = $originalName;
+        //     if ($validator->fails()) {
+        //         return redirect('add')
+        //             ->withErrors($validator)
+        //             ->withInput();
+        //     }
+        // } catch (Exception $e) {
+        //     echo 'Message: ' . $e->getMessage();
         // }
 
 
+        // $product = Product::create([
+        //     'category_id' => $request->category_id,
+        //     'name' => $request->name,
+        //     // 'model' => $request->model,
+        //     // 'brand' => $request->brand,
+        //     // 'price' => $request->price,
+        //     'description' => $request->description,
+        //     'images' => implode('|', $images),
+        //     'keywords' => $request->keywords,
+        //     'subcategory_id' => $request->subcategory_id,
+        //     'store_code' => $request->code,
+        // ]);
 
+        // // Preparing data for pivot table 
 
-        $product = Product::create([
-            'category_id' => $request->category_id,
-            'name' => $request->name,
-            // 'model' => $request->model,
-            // 'brand' => $request->brand,
-            // 'price' => $request->price,
-            'description' => $request->description,
-            'images' => implode('|', $images),
-            'keywords' => $request->keywords,
-            'subcategory_id' => $request->subcategory_id,
-            'store_code' => $request->code,
-        ]);
+        // $attach_data = [];
+        // for ($i = 0; $i < count(array_keys($specs_array)); $i++) {
+        //     $attach_data[array_keys($specs_array)[$i]] = ['value' => $spec_values[$i]];
+        // }
+        // $product->specs()->attach($attach_data);
 
-        // Preparing data for pivot table 
-
-        $attach_data = [];
-        for ($i = 0; $i < count(array_keys($specs_array)); $i++) {
-            $attach_data[array_keys($specs_array)[$i]] = ['value' => $spec_values[$i]];
-        }
-        $product->specs()->attach($attach_data);
-
-        return redirect()->back()->with('message', 'Data inserted!!!');;
+        // return redirect()->back()->with('message', 'Data inserted!!!');;
     }
 
     public function getId(Request $request, $category_id = null, $selected_cat_subcat = null, $specs = null)

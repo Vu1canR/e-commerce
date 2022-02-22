@@ -26,19 +26,19 @@
 				</div>	
 			</div>	
 		</section>	
-		<section v-for="spec in specs">
+		<section v-for="(spec,index) in specs">
 			<div class="header">
-				<h4>{{spec.property}}</h4>
+				<h4>{{spec.spec_name}}</h4>
 				<span class="reset"><button>reset</button></span>
 			</div>
-			<label v-for="value in spec.values" ><input type="checkbox" name="checkbox" @click="addSpec(value.value)">{{value.value}} {{value.products[0].values.length}}</label>
+			<label v-for="value in spec.values" ><input type="checkbox" name="checkbox" @click="addSpec(value.id)" v-model="filters.specs[spec.spec_name]">{{value.value}} {{value.products.name}}</label>
 			<!-- @click="addSpec(value.value)" -->
 			<!-- <label><input type="checkbox" name="checkbox">MSI</label>
 			<label><input type="checkbox" name="checkbox">Gigabyte</label>
 			<label><input type="checkbox" name="checkbox">Asrock</label> -->
 		</section>			
-			<!-- <p v-bind="inconsole()"></p> -->\
 			<!-- <p>{{specs}}</p> -->
+		<p v-bind="inconsole()"></p>
 	</div>
 	
 </template>
@@ -52,28 +52,40 @@ export default {
 			specs:{},
 			message: '',
 			filters:{
-				specs: ['8gb', 'TUF Gaming'],
+				specs: [],
 				tags: []
-			} 
+			},
+			test: [],
+			temp:{'spec': 2, 'value': 4},
+			test2:['Asus', '6gb']
 		};
 	},
 	methods: {
 		inconsole(){
-			console.log(this.specs[0])
+			console.log(this.filters.specs);
 		},
 
-		addSpec(value){
+		addSpec(value, values){
+			const temp = []
+			// console.log(values);
+			// console.log(value);
 			this.filters.specs.push(value)
+			
+			// console.log(typeof(value))
 		},
 
 		loadSpecs() {
+
+
 			axios.get('/api/specs', {
-					params: this.filters
+					params: this.temp
 				})
 				.then((response) => {
 					this.specs = response.data;
-					console.log(response.data)
-					// console.log(response.data[0].values[1].products[0].values);
+					// console.log(response.data);
+					this.specs.forEach(spec => {
+						this.filters.specs.push(spec.spec_name)
+					})
 				})
 				.catch(function (error) {
 					// console.log(error);
@@ -82,13 +94,20 @@ export default {
 	},
 
 	created() {
-        // this.specs.forEach(spec => {
-			// this.filters.specs.push(spec.id)
+		
+		this.loadSpecs()
+		for (let x in this.test2) {
+			// this.test.push(this.specs)
+
+		}
+        // this.temp.forEach(spec => {
+			// 	this.test.push(spec)
         // })
     },
 
     mounted() {
-		this.loadSpecs()
+		
+		
 		// this.inconsole()
         // axios.get('/products').then(response => this.my_products = response.data);
     },
@@ -98,7 +117,7 @@ export default {
 			handler: function () {
 				// console.log(this.selected)
 				// this.inconsole(_.omit(this.selected, 'categories'))
-				this.loadSpecs();
+				// this.loadSpecs();
 				// this.inconsole(_.omit(this.selected, 'categories'))
 			},
 			deep: true
