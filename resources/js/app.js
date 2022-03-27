@@ -24,6 +24,7 @@ import slider from "./components/slider.vue";
 import track_order from "./components/track-order.vue";
 import cart_preview from "./components/cart-preview.vue";
 import navigation from "./components/navigation.vue";
+import test from "./components/test.vue";
 
 
 
@@ -31,7 +32,7 @@ const app = createApp({
  	components: {
 		show_products, add_product,
 		recently_added,
-		tabs, tab, search, user_profile, slider, track_order, cart_preview, header_nav, product, bestsellers, registration, navigation, cart, products_list, filters
+		tabs, tab, search, user_profile, slider, track_order, cart_preview, header_nav, product, bestsellers, registration, navigation, cart, products_list, filters, test
   	}
 });
 

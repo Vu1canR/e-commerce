@@ -7,6 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <div id="app">
+        <test></test>
+    </div>
+
+    @include('scripts')
 </body>
 </html>

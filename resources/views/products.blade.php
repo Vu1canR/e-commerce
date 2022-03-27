@@ -23,7 +23,7 @@
 		<a href="/c-{{$cat_obj->id}}/{{$subcat_obj->id}}-{{strtolower(str_replace(' ','-',$subcat_obj->name))}}">{{$subcat_obj->name}}</a>
 	</p>		
 		
-		<filters></filters>
+		<filters :subcat_obj="{{$subcat_obj}}" :specs_obj="{{$specs}}"></filters>
 		<div class="products-list">
 			<div class="filter-view">
 				<div>

@@ -84,11 +84,10 @@
 		<div class="add-div" title="new product">
             <div class="form-div menu">
                 <form method="POST" action="/admin/products" enctype="multipart/form-data">
-                    <p>{{data['subcategories']}}</p>
                     <input type="hidden" name="_token" :value="csrf" />
                     <label for="name">Category</label>
-                    <!-- <select name="category_id"  @change="getCatId()" v-model="selected.category"> -->
-                    <select name="category_id"  @change="getCatId()" v-model="selected.category">
+                    <select name="category_id"  @click="getSub(index)" v-model="selected.category">
+                    
                         <option 
                         v-for="(category, index) in categories" 
                         :key="index" 
@@ -97,12 +96,11 @@
                     </select>
 
                     <label for="name">Subcategory</label>
-                    <select name="subcategory_id" @change="loadSpecs()" v-model="selected.subcategory">
+                    <select name="subcategory_id" @click="getCat()" v-model="selected.subcategory">
                         <option v-for="subcategory in subcategories"
                         :key="subcategory.id"
                         :value="subcategory.id"
                         :name="subcategory.name">{{subcategory.name}}</option>
-                        
                     </select>
                     
                     <label for="name">Name</label>
@@ -223,13 +221,14 @@ export default {
                 subcategory: null
             },
             values: [],
+            test: 'Test',
         
         }
     },
     methods: {
         inconsole(){
          
-        console.log(this.values);
+        // console.log(this.selected);
             
         },
         sendValues(){            
@@ -246,54 +245,41 @@ export default {
 
         },
 
-        loadCategories(){            
+        loadData(){
+
             axios({
                 method: 'get',
                 params: this.selected,
                 url: '/api/category',
-                // data: {
-                // category_id: this.category_id,
-                // subcategory_id: ''
-                // }
             })
             .then(response => {
-                this.categories = response.data
-                // console.log(response)
+                    this.categories = response.data.categories
+                    this.subcategories = response.data.subcategories
+                    console.log(response.data);
                 })
             .catch(error => console.log(error));
+        },
+        
+        getSub(){
+            
+            if(this.selected.category){
+                this.categories.forEach(item => {
+                    if(item.id == this.selected.category)
+                        this.subcategories = item.subcategories
+                })
+            }
+          
 
         },
 
-        getCatId(){
-            axios({
-                method: 'get',
-                params: this.selected,
-                url: '/api/category',
-                // data: {
-                // category_id: this.category_id,
-                // subcategory_id: ''
-                // }
-            })
-            .then(response => {
-                this.categories = response.data
-                
-                if(this.selected.category){
-
-                    
-                    response.data.forEach(item => {
-                    })
-                    for (const item in response.data) {
-                        if(response.data[item].id == this.selected.category){
-                            this.subcategories = response.data[item].subcategories
-                            // console.log(response.data[item].subcategories)
-                            break
-                        }
-
-                    }
-                }
-
+        getCat(){
+               
+            if(this.selected.subcategory){
+                this.subcategories.forEach(item => {
+                    if(item.id == this.selected.subcategory)
+                        this.selected.category = item.category_id
                 })
-            .catch(error => console.log(error));
+            }
 
         },
 
@@ -342,7 +328,7 @@ export default {
 
     mounted() {
 
-        this.getCatId()
+        this.loadData()
         
         // this.$refs.qi.forEach(input => {
         //    this.$refs.qi[this.x].style.display = 'none';

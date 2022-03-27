@@ -64,11 +64,13 @@ class Product extends Model
         return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
 
-    // public function scopeWithFilters()
-    // {
+    public function scopeWithFilters($query, $specs)
+    {
+        return $query->withCount(['values'=> function ($query) use ($specs) {
+            $query->when($specs, function ($query) use ($specs){
+                $query->whereIn('spec_value_id', $specs);                        
+            });
+        }])->having('values_count','>=', sizeof($specs));
 
-    //     return $this->whereIn('value', ['Asus']);
-
-
-    // }
+    }
 }

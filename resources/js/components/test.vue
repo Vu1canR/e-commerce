@@ -1,7 +1,20 @@
 <template>
-<div>
-	<h1 v-bind="inConsole()"></h1>
-	<p v-for="data in products" v-text="data" :key="data.id"></p>
+<div v-bind="inConsole()">
+	<select v-model="selected">
+        <option>
+            something
+        </option>
+        <option>
+            three
+        </option>
+        <option>
+            four
+        </option>
+        <option value="test">
+            test
+        </option>
+    
+    </select>
 </div>
 </template>
 <script>
@@ -11,12 +24,12 @@ export default {
 	},
 	data() {
 		return {
-			message: 'Da fuk'
+			selected: 'test'
 		};
 	},
 	methods: {
 		inConsole(){
-			console.log(this.products)
+			console.log(this.selected)
 		}
 	},
 };

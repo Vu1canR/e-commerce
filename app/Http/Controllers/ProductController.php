@@ -70,7 +70,7 @@ class ProductController extends Controller
         //     Media::whereIn('id', $media)->update(['model_id' => $product->id]);
         // }
 
-        // return redirect()->route('admin.products.index');
+        return redirect()->route('admin.products.index');
     }
 
 
@@ -90,7 +90,7 @@ class ProductController extends Controller
         $subcat_obj = SubCategory::find($subCatId);
         $cats = Category::with('subcategories')->get();
 
-        $specs = Spec::where('sub_cat_id', $subCatId)->with('products')->get();
+        $specs = Spec::where('sub_cat_id', $subCatId)->with('products')->limit(3)->get();
 
         return view('products', compact('products', 'cat_obj', 'subcat_obj', 'specs'));
     }

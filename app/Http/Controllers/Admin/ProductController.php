@@ -35,10 +35,10 @@ class ProductController extends Controller
         // abort_if(Gate::denies('product_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
 
-        $categories = Category::with('subcategories')
-            ->whereHas('subcategories')
-            ->get();
-        // return $categories;
+        $categories = '';
+        // Category::with('subcategories')
+        //     ->whereHas('subcategories')
+        //     ->get();
         return view('admin.products.create', compact('categories'));
     }
 
@@ -95,6 +95,7 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
         ]);
         $product->values()->sync($temp);
+        $product->specs()->sync($temp);
         // $test = $request->all();
         // return $temp;
         // $product->specs()->sync($request->input('specs', []));

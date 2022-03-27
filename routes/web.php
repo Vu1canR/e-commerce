@@ -42,7 +42,8 @@ Route::get('/add', 'App\Http\Controllers\ProductController@addProduct');
 Route::get('/add/category', 'App\Http\Controllers\ProductController@byCategory');
 
 // Route::post('/create-product', 'App\Http\Controllers\ProductController@store');
-Route::get('api/category', 'App\Http\Controllers\Api\ProductController@getCatId');
+Route::get('api/category', 'App\Http\Controllers\api\ProductController@getCat');
+Route::get('api/subcategory', 'App\Http\Controllers\api\ProductController@getSub');
 
 Route::get('/register', 'App\Http\Controllers\RegistrationController@create');
 Route::post('/register', 'App\Http\Controllers\RegistrationController@store');
@@ -59,6 +60,11 @@ Route::get('/about', function () {
     return view('about');
 });
 
+Route::get('/test', function () {
+
+    return view('test');
+});
+
 Route::get('/cat', 'App\Http\Controllers\CategoriesController@showSubCategories');
 
 Route::post('/p/{store_code}-{product}', 'CommentsController@store');
@@ -66,7 +72,7 @@ Route::put('/p/comment-update', 'App\Http\Controllers\CommentsController@update'
 Route::get('/p/{store_code}-{product}', 'App\Http\Controllers\ProductController@show');
 Route::get('/c-{catId}/{subcatId}-{subcat}', 'App\Http\Controllers\ProductController@showAll');
 
-Route::get('/test', 'App\Http\Controllers\TestController@index');
+// Route::get('/test', 'App\Http\Controllers\TestController@index');
 Route::post('/api/values', 'App\Http\Controllers\TestController@values');
 
 Route::post('/add/product-update', 'App\Http\Controllers\ProductController@update');
